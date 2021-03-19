@@ -4,7 +4,7 @@
     <section class="article">
         {% for article in articles %}
             <article>
-                <a href="{{ path('article',{'id':article.id}) }}">
+                <a href="{{ path('article',{'id':article.id}) }}">//lien vers une autre url nommé /article/(l'id du produit ou je clique)
                 <h1>{{ article.title }}</h1>
                 <p>{{ article.content }}</p>
                 <br>
