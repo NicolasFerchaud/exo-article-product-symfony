@@ -1,0 +1,18 @@
+{% extends 'base_article.html.twig' %}
+
+{% block main %}
+    <section class="article">
+        {% for article in articles %}
+            <article>
+                <a href="{{ path('article',{'id':article.id}) }}">
+                    <h1>{{ article.title }}</h1>
+                    <p>{{ article.content }}</p>
+                    <br>
+                    <p>Créez le {{ article.createdAt | date('d,m,Y') }}</p>
+                </a>
+                <br>
+            </article>
+        {% endfor %}
+    </section>
+    <a class="nav" href="{{ path('articles') }}">Voir tous les articles</a>
+{% endblock main %}

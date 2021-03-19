@@ -1,0 +1,13 @@
+{% extends 'base_article.html.twig' %}
+
+{% block main %}
+    <article class="detail">
+        <h1>{{ article.title }}</h1>
+        <p>{{ article.content }}</p>
+        <br>
+        <p>Créez le {{ article.createdAt | date('d,m,Y') }}</p>
+        <br>
+    </article>
+    <a class="nav" href="{{ path('articles') }}">Retourner sur tous les articles</a><br>
+    <a class="nav" href="{{ path('home') }}">Retour à l'accueil</a>
+{% endblock main %}

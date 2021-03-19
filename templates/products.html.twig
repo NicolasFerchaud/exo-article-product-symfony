@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Nos produits
+{% endblock title %}
+
+{% block main %}
+    <main>
+        {% for product in products %}{#boucle pour afficher tous les produits du tableau#}
+            <div class="produit">
+                <a href="{{ path('product',{'id':product.id}) }}">{#lien pour rediriger sur un produit précis grace à son id#}
+                    <h1>{{ product.title }}</h1>
+                    <img src="{{ product.image }}">
+                    <p>{{ product.description }}</p>
+                </a>
+                <br>
+                </div>
+        {% endfor %}
+    </main>
+{% endblock main %}

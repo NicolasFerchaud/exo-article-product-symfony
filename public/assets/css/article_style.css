@@ -1,0 +1,35 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+header{
+    height: 100px;
+    background-color: lightgreen;
+}
+footer{
+    height: 100px;
+    background-color: lightgreen;
+}
+.article{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 20px;
+}
+h1{
+    background-color: black;
+    color: deeppink;
+    font-size: 2em;
+    font-family: fantasy;
+    text-align: center;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+.detail{
+
+}
+.nav{
+    color: blue;
+}
