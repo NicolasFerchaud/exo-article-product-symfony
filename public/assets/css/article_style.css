@@ -16,6 +16,14 @@ footer{
     grid-template-columns: repeat(2, 1fr);
     padding: 20px;
 }
+.titre{
+    display: flex;
+    align-items: center;
+}
+.titreHome{
+    background-color: lightgreen;
+    color: darkorange;
+}
 h1{
     background-color: black;
     color: deeppink;
@@ -29,4 +37,7 @@ a{
 }
 .nav{
     color: blue;
+}
+form{
+    padding: 30px;
 }

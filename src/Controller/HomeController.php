@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     /**
-     * @Route("/home", name="home")
+     * @Route("/", name="home")
      */
     public function accueil(ArticleRepository $articleRepository)//ArticleRepository est une class instanciée dans la methode accueil
     {
@@ -20,7 +20,7 @@ class HomeController extends AbstractController
             2
         );
         return $this->render('home.html.twig',[//fait un rendu de homeController .twig en .html pour être lu par le navigateur
-            'articles'=> $articles//je créé une variable qui à pour valkeur le contenu de $articles
+            'articles'=> $articles//je créé une variable qui à pour valeur le contenu de $articles
         ]);
     }
 }

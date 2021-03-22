@@ -1,0 +1,24 @@
+{% extends 'base_article.html.twig' %}
+
+{% block main %}
+
+    {% if search | length > 0 %}
+        {% for article in search %}
+            <article>
+                <a href="{{ path('article',{'id':article.id}) }}">
+                    <h1>{{ article.title }}</h1>
+                    <p>{{ article.content }}</p>
+                    <br>
+                    <p>Créez le {{ article.createdAt | date('d,m,Y') }}</p>
+                    <br>
+                </a>
+            </article>
+        {% endfor %}
+
+    {% else %}
+        <p>Aucun article trouvé pour ce contenu</p>
+    {% endif %}
+
+    <a class="nav" href="{{ path('articles') }}">Retourner sur tous les articles</a><br>
+    <a class="nav" href="{{ path('home') }}">Retour à l'accueil</a>
+{% endblock main %}

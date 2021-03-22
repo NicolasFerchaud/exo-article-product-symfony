@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class ArticlesController extends AbstractController
 {
@@ -16,7 +17,7 @@ class ArticlesController extends AbstractController
     {
         $articles = $articleRepository->findAll();//recupère tous les éléments de la table (requète native)
         return $this->render('articles.html.twig',[//fait un rendu de homeController .twig en .html pour être lu par le navigateur
-            'articles'=> $articles//je créé une variable qui à pour valkeur le contenu de $articles
+            'articles'=> $articles//je créé une variable qui à pour valeur le contenu de $articles
             ]);
     }
 
@@ -27,7 +28,20 @@ class ArticlesController extends AbstractController
     {
         $article = $articleRepository->find($id);//recupère un éléments de la table grace à son id (requète native)
         return $this->render('article_detail.html.twig',[//fait un rendu de homeController .twig en .html pour être lu par le navigateur
-                'article' => $article//je créé une variable qui à pour valkeur le contenu de $articles
+                'article' => $article//je créé une variable qui à pour valeur le contenu de $articles
             ]);
+    }
+
+    /**
+     * @Route ("/search/articles", name="search")
+     */
+    public function search(Request $request, ArticleRepository $articleRepository)
+    {
+        $search = $request->query->get('search');
+        $research = $articleRepository->searchByTerm($search);
+
+        return $this->render('search_articles.html.twig',[
+            'search' => $research
+        ]);
     }
 }

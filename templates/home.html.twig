@@ -4,7 +4,7 @@
     <section class="article">
         {% for article in articles %}
             <article>
-                <a href="{{ path('article',{'id':article.id}) }}">//lien vers une autre url nommé /article/(l'id du produit ou je clique)
+                <a href="{{ path('article',{'id':article.id}) }}">{#lien vers une autre url nommé /article/(l'id du produit ou je clique)#}
                     <h1>{{ article.title }}</h1>
                     <p>{{ article.content }}</p>
                     <br>
@@ -14,5 +14,6 @@
             </article>
         {% endfor %}
     </section>
-    <a class="nav" href="{{ path('articles') }}">Voir tous les articles</a>
+    <a class="nav" href="{{ path('articles') }}">Voir tous les articles</a><br>
+    <a class="nav" href="{{ path('products') }}">Voir les produits</a>
 {% endblock main %}
