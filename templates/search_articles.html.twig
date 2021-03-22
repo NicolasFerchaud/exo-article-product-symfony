@@ -2,7 +2,7 @@
 
 {% block main %}
 
-    {% if search | length > 0 %}
+    {% if search | length > 0 %}{#si ma recherche à des similitude avec ma bdd alors j'affiche les articles correspondant#}
         {% for article in search %}
             <article>
                 <a href="{{ path('article',{'id':article.id}) }}">
@@ -15,7 +15,7 @@
             </article>
         {% endfor %}
 
-    {% else %}
+    {% else %}{#sinon je dis quil y a pas de résultat#}
         <p>Aucun article trouvé pour ce contenu</p>
     {% endif %}
 

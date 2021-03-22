@@ -37,9 +37,12 @@ class ArticlesController extends AbstractController
      */
     public function search(Request $request, ArticleRepository $articleRepository)
     {
+        // je récupère la valeur du parametre d'url "search" envoyé depuis le formulaire
         $search = $request->query->get('search');
+        // je créé une requête en bdd pour récupérer les articles dont le contenu est similaire à la valeur de $search
         $research = $articleRepository->searchByTerm($search);
 
+        //je return le tout à ma page search_articles
         return $this->render('search_articles.html.twig',[
             'search' => $research
         ]);
