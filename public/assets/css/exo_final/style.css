@@ -33,3 +33,7 @@ a{
 input{
     margin-bottom: 20px;
 }
+.success{
+    text-align: center;
+    background-color: lawngreen;
+}

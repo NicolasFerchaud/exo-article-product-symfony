@@ -74,6 +74,9 @@ class finalController extends AbstractController
         $entityManager->remove($article);
         $entityManager->flush();
 
+        // après suppression d'un article, j'ajoute un message flash (dans la session)
+        // pour l'afficher sur la prochaine page
+        $this->addFlash("success", "L'article ". $article->getTitle() ." à bien était supprimé.");
         return $this->redirectToRoute('list_article');
     }
 }

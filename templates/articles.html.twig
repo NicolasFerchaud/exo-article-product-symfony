@@ -4,6 +4,7 @@
     <section class="article">
         {% for article in articles %}
             <article>
+                <h2>{{ article.category.title }}</h2>
                 <a href="{{ path('article',{'id':article.id}) }}">{#lien vers une autre url nommé /article/(l'id du produit ou je clique)#}
                 <h1>{{ article.title }}</h1>
                 <p>{{ article.content }}</p>
