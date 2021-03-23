@@ -74,8 +74,6 @@ class finalController extends AbstractController
         $entityManager->remove($article);
         $entityManager->flush();
 
-        return $this->render('exo_final/DELETE.html.twig',[
-            'DELETE' => $article
-        ]);
+        return $this->redirectToRoute('list_article');
     }
 }
