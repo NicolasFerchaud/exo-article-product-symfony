@@ -14,7 +14,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/articles/insert",name="insert_article")
      */
-    public function insertArticle(EntityManagerInterface $entityManager)//entityManager gère les entités pour créé ou modifié un article
+    public function insertArticle(EntityManagerInterface $entityManager)//entityManager est une classe qui gère les entités pour créé ou modifié un article
     {
         // je créé un nouvel objet que je stock dans une variable
         $article = new Article();
@@ -37,7 +37,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/articles/update/{id}", name="update")
      */
-    public function updateArticle(EntityManagerInterface $entityManager, ArticleRepository $articleRepository, $id)
+    public function updateArticle(EntityManagerInterface $entityManager, ArticleRepository $articleRepository, $id)//articleRepository est une classe qui gère les entités pour récupéré un article
     {
         $article = $articleRepository->find($id);//j'enregistre dans une variable l'id d'un article que je recupère en bdd
 
