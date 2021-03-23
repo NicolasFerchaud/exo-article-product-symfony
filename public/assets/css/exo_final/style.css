@@ -1,0 +1,35 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+header{
+    background-color: deepskyblue;
+    text-align: center;
+}
+footer{
+    background-color: deepskyblue;
+}
+.headerTitle{
+    font-family: "American Typewriter";
+}
+.crud{
+    margin: 20px 0;
+    text-align: center;
+}
+.article{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 20px;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+.footerTitle{
+    font-family: "American Typewriter";
+    text-align: center;
+}
+input{
+    margin-bottom: 20px;
+}

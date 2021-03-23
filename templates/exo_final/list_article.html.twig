@@ -1,0 +1,17 @@
+{% extends 'exo_final/base_exo_final.html.twig' %}
+
+{% block main %}
+    <section class="article">
+        {% for article in LIST %}
+            <article>
+                <a href="{{ path('article',{'id':article.id}) }}">{#lien vers une autre url nommé /article/(l'id du produit ou je clique)#}
+                    <h1>{{ article.title }}</h1>
+                    <p>{{ article.content }}</p>
+                </a>
+                    <br>
+                    <p>Créez le {{ article.createdAt | date('d,m,Y') }}</p>
+                <a href="{{ path('delete',{'id':article.id}) }}"><input type="button" value="Supprimer"></a>
+            </article>
+        {% endfor %}
+    </section>
+{% endblock main %}
