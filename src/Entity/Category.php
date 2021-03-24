@@ -38,7 +38,8 @@ class Category
 
     /*
     Le OneToMany veut dire que j'ai potentiellement plusieurs articles, donc
-    il faut que la propriété qui stock les articles, soit un tableau (ici unArrayCollection)
+    il faut que la propriété qui stock les articles, soit un tableau ici unArrayCollection
+    (class native de doctrine)
      */
     public function __construct()
     {
