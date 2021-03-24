@@ -8,6 +8,7 @@ use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
@@ -15,13 +16,33 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/articles/insert",name="insert_article")
      */
-    public function insertArticle(EntityManagerInterface $entityManager)//entityManager est une classe qui gère les entités pour créé ou modifié un article
+    public function insertArticle(EntityManagerInterface $entityManager, Request $request)//entityManager est une classe qui gère les entités pour créé ou modifié un article
     {
         // je créé une instance de l'entité Article, afin de la relier
         // à un formulaire de création d'article
         $article = new Article();
         // je récupère le gabarit de formulaire d'Article et je le relie à mon nouvel article
         $articleForm = $this->createForm(ArticleType::class, $article);
+
+        // je récupère les données de POST envoyées par le formulaire grâce
+        // à la classe Request, et j'ajoute les données récupérées dans le formulaire
+        $articleForm->handleRequest($request);
+
+        // si mon formulaire a été submit et que les données de POST
+        // correspondent aux données attendues par l'entité Article
+        if ($articleForm -> isSubmitted() && $articleForm -> isValid()){
+            // alors je récupère l'entité Article compléter par les données du formulaire
+            $article = $articleForm -> getData();
+
+            // et j'enregistre l'article
+            $entityManager->persist($article);
+            // et je le pousse dans la bdd
+            $entityManager->flush();
+            
+            //si tout ok je redirige vert list_article avec un message flash
+            $this->addFlash("success", "L'article ". $article->getTitle() ." à bien était créé.");
+            return $this->redirectToRoute('list_article');
+        }
 
         // je récupère (et compile) le fichier twig et je lui envoie le formulaire, transformé
         // en vue (donc exploitable par twig)
