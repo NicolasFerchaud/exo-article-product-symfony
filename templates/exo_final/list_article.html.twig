@@ -4,7 +4,9 @@
     <section class="article">
         {% for article in LIST %}
             <article>
-                <h2>{{ article.category.title }}</h2>
+                {% if article.category %}{#si il y a une category alors affiche h2#}
+                    <h2>{{ article.category.title }}</h2>{#pour afficher le titre de ma catégorie#}
+                {% endif %}
                 <a href="{{ path('article',{'id':article.id}) }}">{#lien vers une autre url nommé /article/(l'id du produit ou je clique)#}
                     <h1>{{ article.title }}</h1>
                     <p>{{ article.content }}</p>

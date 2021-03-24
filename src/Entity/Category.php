@@ -4,6 +4,8 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,6 +24,26 @@ class Category
      * @ORM\Column(type="string", length=255)
      */
     private $title;
+
+    /* Pour pouvoir récupérer les articles depuis les catégories, je dois ajouter
+     la relation inverse au ManyToOne déclaré dans l'entité Article.php, donc un OneToMany et je le relie
+     avec l'entité Article.
+
+     Je précise aussi, dans l'entité quelle propriété fait l'inverse du OneToMany (donc le ManyToOne),
+     soit la propriété Category.*/
+    /**
+     * @ORM\OneToMany(targetEntity="Article", mappedBy="category")
+     */
+    private $articles;
+
+    /*
+    Le OneToMany veut dire que j'ai potentiellement plusieurs articles, donc
+    il faut que la propriété qui stock les articles, soit un tableau (ici unArrayCollection)
+     */
+    public function __construct()
+    {
+        $this->articles = new arrayCollection();
+    }
 
     /**
      * @ORM\Column(type="text")
@@ -127,6 +149,26 @@ class Category
         $this->published = $published;
         return $this;
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getArticles()
+    {
+        return $this->articles;
+    }
+
+    /*enlever le ArrayCollection générer automatiquement dans @param et dans la function setArticles*/
+    /**
+     * @param ArrayCollection $articles
+     * @return Category
+     */
+    public function setArticles($articles): Category
+    {
+        $this->articles = $articles;
+        return $this;
+    }
+
 
 
 }

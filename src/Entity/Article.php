@@ -42,8 +42,15 @@ class Article
      */
     private $isPublished;
 
+    /*relation entre la table article et catégorie
+     Chaque article peut avoir qu'une catégorie. Donc j'utilise
+      l'annotation ManyToOne pour créer la relation. Le many pour (les articles) et one
+      pour (les catégories)
+
+      J'ai ajouté la relation inverse (le OneToMany) du côté de Category.php, alors je dois
+      ici préciser la propriété dans l'entité Category qui gère le OneToMany*/
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="articles")
      */
     private $category;
 
@@ -135,6 +142,5 @@ class Article
         $this->category = $category;
         return $this;
     }
-
 
 }
