@@ -4,6 +4,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Article;
+use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,7 +17,19 @@ class AdminController extends AbstractController
      */
     public function insertArticle(EntityManagerInterface $entityManager)//entityManager est une classe qui gère les entités pour créé ou modifié un article
     {
-        // je créé un nouvel objet que je stock dans une variable
+        // je créé une instance de l'entité Article, afin de la relier
+        // à un formulaire de création d'article
+        $article = new Article();
+        // je récupère le gabarit de formulaire d'Article et je le relie à mon nouvel article
+        $articleForm = $this->createForm(ArticleType::class, $article);
+
+        // je récupère (et compile) le fichier twig et je lui envoie le formulaire, transformé
+        // en vue (donc exploitable par twig)
+        return $this->render('admin/article_insert.html.twig',[
+            'articleFormView' => $articleForm->createView()
+        ]);
+
+       /* // je créé un nouvel objet que je stock dans une variable
         $article = new Article();
         //je met toute les valeurs à remplir dans mon INSERT
         $article-> setTitle('super article');
@@ -31,7 +44,7 @@ class AdminController extends AbstractController
 
         return $this->render('admin_article_insert.html.twig',[
             'insert' => $article
-        ]);
+        ]);*/
     }
 
     /**
