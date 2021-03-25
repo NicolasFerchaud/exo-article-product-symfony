@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class finalController extends AbstractController
 {
     /**
-     * @Route ("/admin/list_article", name="list_article")
+     * @Route ("/list_article", name="list_article")
      */
     public function list_article(ArticleRepository $articleRepository)
     {

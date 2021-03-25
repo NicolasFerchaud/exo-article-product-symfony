@@ -11,8 +11,9 @@
                     <h1>{{ article.title }}</h1>
                     <p>{{ article.content }}</p>
                 </a>
-                    <br>
-                    <p>Créez le {{ article.createdAt | date('d,m,Y') }}</p>
+                <br>
+                <p>Créez le {{ article.createdAt | date('d,m,Y') }}</p>
+                <a href="{{ path('delete',{'id':article.id}) }}"><input type="button" value="Supprimer"></a>
             </article>
         {% endfor %}
     </section>

@@ -1,0 +1,33 @@
+{% extends 'base_article.html.twig' %}
+
+{% block main %}
+    <h1>Créer une catégorie</h1>
+    {{ form_start(categoryFormView) }}
+
+    <div class="mb-3">
+        {{ form_label(categoryFormView.title, 'Titre', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(categoryFormView.title, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(categoryFormView.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(categoryFormView.description, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(categoryFormView.createdAt, 'Créer le', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(categoryFormView.createdAt, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(categoryFormView.published, 'Pour publier la catégorie coché cette case', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(categoryFormView.published, {'attr': {'class': 'form-check-label'}}) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_widget(categoryFormView.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+    </div>
+
+    {{ form_end(categoryFormView) }}
+
+{% endblock main %}
