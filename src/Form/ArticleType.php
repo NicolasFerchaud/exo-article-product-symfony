@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Article;
+use App\Entity\Category;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -18,11 +20,18 @@ class ArticleType extends AbstractType
             ->add('content')
             ->add('image')
             ->add('createdAt',DateType::class, [
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd'
+                'widget' => 'single_text'
             ])
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'title',
+                //'choice_label' => function($category) {
+                //return $category->getId() . ' ' . $category->getTitle();
+                //},
+                'placeholder' => ' '
+            ] )
             ->add('isPublished')
-            ->add('submit', SubmitType::class)
+            ->add('envoyer', SubmitType::class)
         ;
     }
 

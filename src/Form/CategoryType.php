@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class CategoryType extends AbstractType
 {
@@ -17,8 +18,7 @@ class CategoryType extends AbstractType
             ->add('title')
             ->add('description')
             ->add('createdAt',DateType::class, [
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd'
+                'widget' => 'single_text'
             ])
             ->add('published')
             ->add('submit', SubmitType::class)

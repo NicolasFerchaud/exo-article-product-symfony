@@ -5,16 +5,25 @@
     {{ form_start(categoryFormView) }}
 
     <div class="mb-3">
+        <div class="text-danger">
+            {{ form_errors(categoryFormView.title) }}
+        </div>
         {{ form_label(categoryFormView.title, 'Titre', {'label_attr': {'class': 'form-label'}}) }}
         {{ form_widget(categoryFormView.title, {'attr': {'class': 'form-control'}}) }}
     </div>
 
     <div class="mb-3">
+        <div class="text-danger">
+            {{ form_errors(categoryFormView.description) }}
+        </div>
         {{ form_label(categoryFormView.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
         {{ form_widget(categoryFormView.description, {'attr': {'class': 'form-control'}}) }}
     </div>
 
     <div class="mb-3">
+        <div class="text-danger">
+            {{ form_errors(categoryFormView.createdAt) }}
+        </div>
         {{ form_label(categoryFormView.createdAt, 'Créer le', {'label_attr': {'class': 'form-label'}}) }}
         {{ form_widget(categoryFormView.createdAt, {'attr': {'class': 'form-control'}}) }}
     </div>
@@ -27,6 +36,7 @@
     <div class="mb-3">
         {{ form_widget(categoryFormView.submit, {'attr': {'class': 'btn btn-primary'}}) }}
     </div>
+
 
     {{ form_end(categoryFormView) }}
 

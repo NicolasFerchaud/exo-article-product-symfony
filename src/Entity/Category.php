@@ -3,10 +3,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ArticleRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
@@ -22,6 +23,7 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Vous avez oublié de saisir un titre")
      */
     private $title;
 
@@ -48,11 +50,20 @@ class Category
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="Vous avez oublié de saisir une description")
+     * @Assert\Length(
+     *    min = 2,
+     *    max = 50,
+     *    minMessage = "La description doit faire minilmum {{ limit }} characters de long",
+     *    maxMessage = "La description de peut pas dépassée {{ limit }} characters"
+     * )
      */
     private $description;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(message="Vous avez oublié de saisir une date")
+     * @Assert\Type(type="\DateTimeInterface", message="Veuillez saisir une date valide")
      */
     private $createdAt;
 
