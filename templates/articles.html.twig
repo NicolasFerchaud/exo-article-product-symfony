@@ -8,10 +8,10 @@
                 <a href="{{ path('article',{'id':article.id}) }}">{#lien vers une autre url nommé /article/(l'id du produit ou je clique)#}
                 <h1>{{ article.title }}</h1>
                 <p>{{ article.content }}</p>
+                <img src="{{ article.image }}" alt="">
                 <br>
                 <p>Créez le {{ article.createdAt | date('d,m,Y') }}</p>
                 </a>
-                <br>
             </article>
         {% endfor %}
     </section>

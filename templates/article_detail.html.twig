@@ -4,6 +4,7 @@
     <article>
         <h1>{{ article.title }}</h1>
         <p>{{ article.content }}</p>
+        <img src="{{ article.image }}" alt="">
         <br>
         <p>Créez le {{ article.createdAt | date('d,m,Y') }}</p>
         <br>
