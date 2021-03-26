@@ -3,6 +3,20 @@
     padding: 0;
     box-sizing: border-box;
 }
+.resp{
+    width: 100%;
+    height: auto;
+}
+.article_image{
+    width: 50%;
+    margin: 0 auto;
+}
+.article_update_image{
+    width: 20%;
+}
+.article_detail{
+    text-align: center;
+}
 header{
     height: 100px;
     background-color: lightgreen;

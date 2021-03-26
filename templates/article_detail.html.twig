@@ -3,10 +3,12 @@
 {% block main %}
     <article>
         <h1>{{ article.title }}</h1>
-        <p>{{ article.content }}</p>
-        <img src="{{ article.image }}" alt="">
+        <div class="article_image">
+            <img class="resp" src="{{ asset('uploads/images/' ~ article.image) }}" alt="{{ article.title }}">
+        </div>
+        <p class="article_detail">{{ article.content }}</p>
         <br>
-        <p>Créez le {{ article.createdAt | date('d,m,Y') }}</p>
+        <p class="article_detail">Créez le {{ article.createdAt | date('d,m,Y') }}</p>
         <br>
     </article>
     <a class="nav" href="{{ path('articles') }}">Retourner sur tous les articles</a><br>

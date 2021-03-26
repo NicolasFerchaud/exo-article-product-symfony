@@ -25,6 +25,10 @@
         {{ form_widget(articleFormView.image, {'attr': {'class': 'form-control'}}) }}
     </div>
 
+    <div class="article_update_image">
+        <img class="resp" src="{{ asset('uploads/images/' ~ article.image) }}" alt="{{ article.title }}">
+    </div>
+
     <div class="mb-3">
         <div class="text-danger">
             {{ form_errors(articleFormView.category) }}

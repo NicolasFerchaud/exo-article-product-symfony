@@ -13,6 +13,11 @@
                 </a>
                     <br>
                     <p>Créez le {{ article.createdAt | date('d,m,Y') }}</p>
+                {% if article.image %}
+                    <div class="list_article_image">
+                        <img class="resp" src="{{ asset('uploads/images/' ~ article.image) }}" alt="{{ article.title }}">
+                    </div>
+                {% endif %}
             </article>
         {% endfor %}
     </section>

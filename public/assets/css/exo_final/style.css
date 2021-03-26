@@ -3,6 +3,13 @@
     padding: 0;
     box-sizing: border-box;
 }
+.resp{
+    width: 100%;
+    height: auto;
+}
+.list_article_image{
+    width: 20%;
+}
 header{
     background-color: deepskyblue;
     text-align: center;

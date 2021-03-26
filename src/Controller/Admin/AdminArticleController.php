@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AdminArticleController extends AbstractController
 {
@@ -27,7 +28,10 @@ class AdminArticleController extends AbstractController
     /**
      * @Route("/admin/articles/insert",name="insert_article")
      */
-    public function insertArticle(EntityManagerInterface $entityManager, Request $request)//entityManager est une classe qui gère les entités pour créé ou modifié un article
+    public function insertArticle(
+        EntityManagerInterface $entityManager, //entityManager est une classe qui gère les entités pour créé ou modifié un article
+        Request $request,
+        SluggerInterface $slugger)//SluggerInterface est une classe pour géré les images
     {
         // je créé une instance de l'entité Article, afin de la relier
         // à un formulaire de création d'article
@@ -41,25 +45,46 @@ class AdminArticleController extends AbstractController
 
         // si mon formulaire a été submit et que les données de POST
         // correspondent aux données attendues par l'entité Article
-        if ($articleForm -> isSubmitted() && $articleForm -> isValid()){
+        if ($articleForm->isSubmitted() && $articleForm->isValid()) {
             // alors je récupère l'entité Article compléter par les données du formulaire
-            $article = $articleForm -> getData();
+            $article = $articleForm->getData();
 
+            //récupère les images
+            $imageFile = $articleForm->get('image')->getData();
+            //Si j'ai une image je récupère son nom d'origine
+            if ($imageFile) {
+                $imageFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                //J'enlève les caractère spéciaux avec slug et je la renomme de facon unique grace à une extension
+                $safeFilename = $slugger->slug($imageFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+
+                try {//verifie que tout ce passe bien
+                    $imageFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {//sinon on retourne une erreur
+                    throw $this->createNotFoundException("erreur lors de l'envoi de l'image");
+                }
+
+                $article->setImage($newFilename);
+
+            }
             // et j'enregistre l'article
             $entityManager->persist($article);
             // et je le pousse dans la bdd
             $entityManager->flush();
-
+            
             //si tout ok je redirige vert list_article avec un message flash
-            $this->addFlash("success", "L'article ". $article->getTitle() ." à bien était créé.");
-            return $this->redirectToRoute('list_article');
+            $this->addFlash("success", "L'article " . $article->getTitle() . " à bien était créé.");
+            return $this->redirectToRoute('articles_list');
         }
+            // je récupère (et compile) le fichier twig et je lui envoie le formulaire, transformé
+            // en vue (donc exploitable par twig)
+            return $this->render('admin/article_insert.html.twig', [
+                'articleFormView' => $articleForm->createView()
+            ]);
 
-        // je récupère (et compile) le fichier twig et je lui envoie le formulaire, transformé
-        // en vue (donc exploitable par twig)
-        return $this->render('admin/article_insert.html.twig',[
-            'articleFormView' => $articleForm->createView()
-        ]);
     }
 
     /**
@@ -68,6 +93,7 @@ class AdminArticleController extends AbstractController
     public function updateArticle(EntityManagerInterface $entityManager,
                                   ArticleRepository $articleRepository,
                                   Request $request,
+                                  SluggerInterface $slugger,
                                   $id)//articleRepository est une classe qui gère les entités pour récupéré un article
     {
         $article = $articleRepository->find($id);//j'enregistre dans une variable l'id d'un article que je recupère en bdd
@@ -85,6 +111,27 @@ class AdminArticleController extends AbstractController
             // alors je récupère l'entité Article compléter par les données du formulaire
             $article = $articleForm->getData();
 
+            //récupère les images
+            $imageFile = $articleForm->get('image')->getData();
+            //Si j'ai une image je récupère son nom d'origine
+            if ($imageFile) {
+                $imageFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                //J'enlève les caractère spéciaux avec slug et je la renomme de facon unique grace à une extension
+                $safeFilename = $slugger->slug($imageFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+
+                try {//verifie que tout ce passe bien
+                    $imageFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {//sinon on retourne une erreur
+                    throw $this->createNotFoundException("erreur lors de l'envoi de l'image");
+                }
+
+                $article->setImage($newFilename);
+
+            }
             // et j'enregistre l'article
             $entityManager->persist($article);
             // et je le pousse dans la bdd
@@ -92,13 +139,14 @@ class AdminArticleController extends AbstractController
 
             //si tout ok je redirige vert list_article avec un message flash
             $this->addFlash("success", "L'article " . $article->getTitle() . " à bien était modifié.");
-            return $this->redirectToRoute('list_article');
+            return $this->redirectToRoute('articles_list');
         }
 
         // je récupère (et compile) le fichier twig et je lui envoie le formulaire, transformé
         // en vue (donc exploitable par twig)
         return $this->render('admin/article_update.html.twig', [
-            'articleFormView' => $articleForm->createView()
+            'articleFormView' => $articleForm->createView(),
+            'article' => $article//variable article pour recupéré $article ci dessus pour afficher image dans le form update
         ]);
     }
 

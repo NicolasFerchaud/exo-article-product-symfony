@@ -38,9 +38,6 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\File(
-     *     maxSize= "2M"
-     * )
      */
     private $image;
 
