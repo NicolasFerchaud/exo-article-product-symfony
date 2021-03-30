@@ -21,17 +21,17 @@ class ArticleType extends AbstractType
             ->add('title')
             ->add('content')
             ->add('image', FileType::class,[
-                'label' => 'image',
-                'mapped' => false,
-                'required' => false,
-                'constraints' => [
+                'label' => 'image',// change le nom du label dans le form twig
+                'mapped' => false,//true par défaut, à mettre false pour pas envoyé direct en bdd pour traité l'image à part (lui donner un nom unique...)
+                'required' => false,//car l'image n'est pas obligatoire pour mes articles
+                'constraints' => [//limite de taille d'image à 2 megas
                     new File([
                         'maxSize' => '2M'
                         ])
                 ]
             ])
             ->add('createdAt',DateType::class, [
-                'widget' => 'single_text'
+                'widget' => 'single_text'//format propre de date
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,

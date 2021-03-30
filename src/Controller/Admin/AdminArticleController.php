@@ -17,23 +17,25 @@ class AdminArticleController extends AbstractController
     /**
      * @Route ("/admin/articles_list", name="articles_list")
      */
+    //j'utilise l'auto-wire pour que symfony instancie le repository dans une variable généralement du même nom
     public function list_article(ArticleRepository $articleRepository)
     {
-        $article = $articleRepository->findAll();
+        $article = $articleRepository->findAll();//je récupère les articles grace au repository et je les selectionne tous grace au findALL
+        // je récupère (et compile) le fichier twig et je lui envoie le formulaire, transformé en vue
         return $this->render('admin/articles_list.html.twig',[
             'LIST' => $article
         ]);
     }
 
     /**
-     * @Route("/admin/articles/insert",name="insert_article")
+     * @Route("/admin/articles/insert",name="admin_article_insert")
      */
     public function insertArticle(
         EntityManagerInterface $entityManager, //entityManager est une classe qui gère les entités pour créé ou modifié un article
-        Request $request,
+        Request $request,//recupère les données en POST
         SluggerInterface $slugger)//SluggerInterface est une classe pour géré les images
     {
-        // je créé une instance de l'entité Article, afin de la relier
+        // j'instancie une nouvelle entité Article, afin de la relier
         // à un formulaire de création d'article
         $article = new Article();
         // je récupère le gabarit de formulaire d'Article et je le relie à mon nouvel article
@@ -49,16 +51,18 @@ class AdminArticleController extends AbstractController
             // alors je récupère l'entité Article compléter par les données du formulaire
             $article = $articleForm->getData();
 
-            //récupère les images
+            //je récupère les donnée de mon images
             $imageFile = $articleForm->get('image')->getData();
-            //Si j'ai une image je récupère son nom d'origine
+            //si j'ai une image
             if ($imageFile) {
-                $imageFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                //$imageFilename est un chemin vers le dossier temporaire de l'image
+                //je récupère son nom d'origine
+                $originalImage = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
                 //J'enlève les caractère spéciaux avec slug et je la renomme de facon unique grace à une extension
-                $safeFilename = $slugger->slug($imageFilename);
+                $safeFilename = $slugger->slug($originalImage);
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
 
-                try {//verifie que tout ce passe bien
+                try {//verifie que tout ce passe bien (image bien renommé, bien déplacé etc...)
                     $imageFile->move(
                         $this->getParameter('images_directory'),
                         $newFilename
@@ -66,7 +70,7 @@ class AdminArticleController extends AbstractController
                 } catch (FileException $e) {//sinon on retourne une erreur
                     throw $this->createNotFoundException("erreur lors de l'envoi de l'image");
                 }
-
+                //j'enregistre mon image avec le nouveau nom dans une variable
                 $article->setImage($newFilename);
 
             }
@@ -74,8 +78,8 @@ class AdminArticleController extends AbstractController
             $entityManager->persist($article);
             // et je le pousse dans la bdd
             $entityManager->flush();
-            
-            //si tout ok je redirige vert list_article avec un message flash
+
+            //si tout ok je redirige vers articles_list avec un message flash
             $this->addFlash("success", "L'article " . $article->getTitle() . " à bien était créé.");
             return $this->redirectToRoute('articles_list');
         }
@@ -90,6 +94,7 @@ class AdminArticleController extends AbstractController
     /**
      * @Route("/admin/articles/update/{id}", name="admin_article_update")
      */
+    //le {id} est une wild-card qui me permet de recuperer facilement un id dans mon URL
     public function updateArticle(EntityManagerInterface $entityManager,
                                   ArticleRepository $articleRepository,
                                   Request $request,
@@ -115,9 +120,9 @@ class AdminArticleController extends AbstractController
             $imageFile = $articleForm->get('image')->getData();
             //Si j'ai une image je récupère son nom d'origine
             if ($imageFile) {
-                $imageFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $originalImage = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
                 //J'enlève les caractère spéciaux avec slug et je la renomme de facon unique grace à une extension
-                $safeFilename = $slugger->slug($imageFilename);
+                $safeFilename = $slugger->slug($originalImage);
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
 
                 try {//verifie que tout ce passe bien
@@ -163,6 +168,6 @@ class AdminArticleController extends AbstractController
         $entityManager->flush();//j'envoi la requete
 
         $this->addFlash("success", "L'article ". $article->getTitle() ." à bien était supprimé.");
-        return $this->redirectToRoute('list_article');
+        return $this->redirectToRoute('articles_list');
     }
 }

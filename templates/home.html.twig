@@ -7,14 +7,22 @@
                 <a href="{{ path('article',{'id':article.id}) }}">{#lien vers une autre url nommé /article/(l'id du produit ou je clique)#}
                     <h1>{{ article.title }}</h1>
                     <p>{{ article.content }}</p>
-                    <br>
+
+                    {% if article.image %}
+                        <div class="list_article_image">
+                            <img class="resp" src="{{ asset('uploads/images/' ~ article.image) }}" alt="{{ article.title }}">
+                        </div>
+                    {% endif %}
+
                     <p>Créez le {{ article.createdAt | date('d,m,Y') }}</p>
                 </a>
-                <br>
             </article>
         {% endfor %}
     </section>
     <a class="nav" href="{{ path('articles') }}">Voir tous les articles</a><br>
     <a class="nav" href="{{ path('categories') }}">Voir toutes les categories</a><br>
     <a class="nav" href="{{ path('products') }}">Voir les produits</a>
+    <a class="nav" href="{{ path('articles_list') }}">Zone admin article</a>
+    <a class="nav" href="{{ path('categories_list') }}">Zone admin category</a>
+
 {% endblock main %}

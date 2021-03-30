@@ -18,7 +18,7 @@ class CategoryController extends AbstractController
             ['published' => true]
         );
 
-        return $this->render('category.html.twig',[
+        return $this->render('exo_final/category_list.html.twig',[
             'categories' => $categories
         ]);
     }

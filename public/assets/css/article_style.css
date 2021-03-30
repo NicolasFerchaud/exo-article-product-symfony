@@ -11,6 +11,9 @@
     width: 50%;
     margin: 0 auto;
 }
+.list_article_image{
+    width: 20%;
+}
 .article_update_image{
     width: 20%;
 }

@@ -6,6 +6,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Category;
 use App\Form\CategoryType;
+use App\Refactor\FlushForm;
+use App\Refactor\RecupForm;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,17 +31,18 @@ class AdminCategoryController extends AbstractController
     /**
      * @Route("/admin/category/insert", name="admin_category_insert")
      */
-    public function insertCategory(Request $request, EntityManagerInterface $entityManager)
+    public function insertCategory(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        RecupForm $recupForm,
+        FlushForm $flushForm
+    )
     {
         $category = new Category();
-        $categoryForm = $this -> createForm(CategoryType::class);
-        $categoryForm->handleRequest($request);
+        $categoryForm = $recupForm->RecupFormComplete($request);//Refactor
 
         if($categoryForm -> isSubmitted() && $categoryForm -> isValid()){
-            $category = $categoryForm ->getData();
-
-            $entityManager->persist($category);
-            $entityManager->flush();
+            $category = $flushForm->FlushForm($categoryForm, $entityManager);//Refactor
 
             $this->addFlash("success", "La category ". $category->getTitle() . " à bien été créée.");
             return $this->redirectToRoute('categories_list');
@@ -55,6 +58,8 @@ class AdminCategoryController extends AbstractController
     public function updateCategory(Request $request,
                                    EntityManagerInterface $entityManager,
                                    CategoryRepository $categoryRepository,
+                                   RecupForm $recupForm,
+                                   FlushForm $flushForm,
                                    $id)
     {
         $category = $categoryRepository->find($id);
@@ -63,14 +68,10 @@ class AdminCategoryController extends AbstractController
             throw $this->createNotFoundException('Categorie non trouvée');
         }
 
-        $categoryForm = $this -> createForm(CategoryType::class, $category);
-        $categoryForm->handleRequest($request);
+        $categoryForm = $recupForm->RecupFormComplete($request);//Refactor
 
         if($categoryForm -> isSubmitted() && $categoryForm -> isValid()){
-            $category = $categoryForm ->getData();
-
-            $entityManager->persist($category);
-            $entityManager->flush();
+            $category = $flushForm->FlushForm($categoryForm, $entityManager);//Refactor
 
             $this->addFlash("success", "La category ". $category->getTitle() . " à bien été modifiée.");
             return $this->redirectToRoute('categories_list');
@@ -97,4 +98,5 @@ class AdminCategoryController extends AbstractController
         $this->addFlash("success", "La category ". $category->getTitle() . " à bien été effacée.");
         return $this->redirectToRoute('categories_list');
     }
+
 }
